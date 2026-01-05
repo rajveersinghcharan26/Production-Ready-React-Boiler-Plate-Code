@@ -37,8 +37,8 @@ export function GlobalSnackbar() {
       autoHideDuration={SNACKBAR.AUTO_HIDE_DURATION}
       onClose={handleClose}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: SNACKBAR.POSITION.VERTICAL,
+        horizontal: SNACKBAR.POSITION.HORIZONTAL,
       }}
     >
       <Alert

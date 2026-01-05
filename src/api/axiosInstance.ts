@@ -47,8 +47,8 @@ function processQueue(error: Error | null, token: string | null = null): void {
 function getErrorMessage(error: AxiosError): string {
   const data = error.response?.data as Record<string, unknown> | undefined;
   return (
-    (data?.message as string) ||
-    (data?.error as string) ||
+    (data?.['message'] as string) ||
+    (data?.['error'] as string) ||
     error.message ||
     'Something went wrong'
   );

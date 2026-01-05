@@ -14,7 +14,7 @@ import { useLoginMutation } from '@/api/endpoints/authApi';
 import { showSnackbar } from '@/store/slices/uiSlice';
 import { ROUTES } from '@/config/constants';
 import { env } from '@/config/env';
-import { type ILoginRequest } from '@/types';
+import { type ILoginRequest, EUserRole } from '@/types';
 
 // Mock user for demo mode
 const MOCK_USER = {
@@ -23,14 +23,13 @@ const MOCK_USER = {
     email: 'demo@example.com',
     firstName: 'Demo',
     lastName: 'User',
-    role: 'admin' as const,
-    avatar: null,
+    role: EUserRole.ADMIN,
+    avatar: undefined,
     isEmailVerified: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   },
   accessToken: 'mock-access-token-12345',
   refreshToken: 'mock-refresh-token-12345',
+  expiresIn: 3600,
 };
 
 /**

@@ -71,7 +71,7 @@ export const DATE_FORMATS = {
 export const SNACKBAR = {
   AUTO_HIDE_DURATION: 5000,
   POSITION: {
-    VERTICAL: 'bottom',
+    VERTICAL: 'top',
     HORIZONTAL: 'right',
   },
 } as const;

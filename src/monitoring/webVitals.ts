@@ -108,7 +108,7 @@ export function sendToAnalytics(metric: WebVitalsMetric): void {
   }
 
   // Example: Send to custom analytics endpoint
-  const analyticsEndpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT;
+  const analyticsEndpoint = import.meta.env['VITE_ANALYTICS_ENDPOINT'] as string | undefined;
   if (analyticsEndpoint) {
     fetch(analyticsEndpoint, {
       method: 'POST',

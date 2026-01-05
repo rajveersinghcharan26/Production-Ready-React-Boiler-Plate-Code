@@ -14,7 +14,7 @@ import { useRegisterMutation } from '@/api/endpoints/authApi';
 import { showSnackbar } from '@/store/slices/uiSlice';
 import { ROUTES } from '@/config/constants';
 import { env } from '@/config/env';
-import { type IRegisterRequest } from '@/types';
+import { type IRegisterRequest, EUserRole } from '@/types';
 
 /**
  * Registration form with validation.
@@ -59,14 +59,13 @@ export function RegisterForm() {
             email: data.email,
             firstName: data.firstName,
             lastName: data.lastName,
-            role: 'user' as const,
+            role: EUserRole.USER,
             avatar: undefined,
             isEmailVerified: false,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
           },
           accessToken: 'mock-access-token-12345',
           refreshToken: 'mock-refresh-token-12345',
+          expiresIn: 3600,
         }));
         dispatch(showSnackbar({ message: t('auth.registerSuccess'), severity: 'success' }));
         navigate(ROUTES.DASHBOARD);
