@@ -9,8 +9,13 @@ import { Box, Toolbar } from '@mui/material';
 import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
 import { Footer } from '../Footer';
+import { useAppSelector } from '@/store/hooks';
+import { selectIsSidebarOpen } from '@/store/slices/uiSlice';
 
-const DRAWER_WIDTH = 260;
+/** Expanded sidebar width */
+const DRAWER_WIDTH_EXPANDED = 260;
+/** Collapsed sidebar width (icons only) */
+const DRAWER_WIDTH_COLLAPSED = 72;
 
 /**
  * Main layout wrapper for authenticated pages.
@@ -18,18 +23,25 @@ const DRAWER_WIDTH = 260;
  */
 export function MainLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isSidebarExpanded = useAppSelector(selectIsSidebarOpen);
 
-  const handleDrawerToggle = () => {
+  const currentDrawerWidth = isSidebarExpanded ? DRAWER_WIDTH_EXPANDED : DRAWER_WIDTH_COLLAPSED;
+
+  const handleMobileDrawerToggle = () => {
     setMobileOpen((prev) => !prev);
   };
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <Header onMenuClick={handleDrawerToggle} drawerWidth={DRAWER_WIDTH} />
+      <Header
+        onMobileMenuClick={handleMobileDrawerToggle}
+        drawerWidth={currentDrawerWidth}
+      />
       <Sidebar
-        drawerWidth={DRAWER_WIDTH}
+        expandedWidth={DRAWER_WIDTH_EXPANDED}
+        collapsedWidth={DRAWER_WIDTH_COLLAPSED}
         mobileOpen={mobileOpen}
-        onMobileClose={handleDrawerToggle}
+        onMobileClose={handleMobileDrawerToggle}
       />
       <Box
         component="main"
@@ -37,8 +49,14 @@ export function MainLayout() {
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
-          width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+          width: { sm: `calc(100% - ${currentDrawerWidth}px)` },
+          ml: { sm: `${currentDrawerWidth}px` },
           minHeight: '100vh',
+          transition: (theme) =>
+            theme.transitions.create(['width', 'margin-left'], {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.leavingScreen,
+            }),
         }}
       >
         <Toolbar /> {/* Spacer for fixed header */}

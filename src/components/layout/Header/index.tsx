@@ -17,6 +17,7 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
+  useTheme,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -32,7 +33,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/features/auth/authSlice';
-import { toggleTheme } from '@/store/slices/uiSlice';
+import { toggleTheme, toggleSidebar } from '@/store/slices/uiSlice';
 import { changeLanguage } from '@/i18n';
 import { ROUTES } from '@/config/constants';
 
@@ -55,7 +56,7 @@ const LANGUAGES: ILanguage[] = [
 
 interface IHeaderProps {
   /** Handler for menu button click (opens sidebar on mobile) */
-  onMenuClick: () => void;
+  onMobileMenuClick: () => void;
   /** Sidebar width for positioning */
   drawerWidth: number;
 }
@@ -63,10 +64,11 @@ interface IHeaderProps {
 /**
  * Main application header with navigation and user controls.
  */
-export function Header({ onMenuClick, drawerWidth }: IHeaderProps) {
+export function Header({ onMobileMenuClick, drawerWidth }: IHeaderProps) {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const { user } = useAppSelector((state) => state.auth);
   const { themeMode } = useAppSelector((state) => state.ui);
@@ -97,6 +99,10 @@ export function Header({ onMenuClick, drawerWidth }: IHeaderProps) {
 
   const handleThemeToggle = () => {
     dispatch(toggleTheme());
+  };
+
+  const handleDesktopSidebarToggle = () => {
+    dispatch(toggleSidebar());
   };
 
   const handleLogout = () => {
@@ -130,18 +136,36 @@ export function Header({ onMenuClick, drawerWidth }: IHeaderProps) {
         borderColor: 'divider',
         backgroundColor: 'background.paper',
         color: 'text.primary',
+        transition: theme.transitions.create(['width', 'margin-left'], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
       }}
     >
       <Toolbar>
+        {/* Mobile menu button */}
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
-          onClick={onMenuClick}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          onClick={onMobileMenuClick}
+          sx={{ mr: 2, display: { xs: 'flex', sm: 'none' } }}
         >
           <MenuIcon />
         </IconButton>
+
+        {/* Desktop sidebar toggle */}
+        <Tooltip title={t('common.toggleSidebar', 'Toggle sidebar')}>
+          <IconButton
+            color="inherit"
+            aria-label="toggle sidebar"
+            edge="start"
+            onClick={handleDesktopSidebarToggle}
+            sx={{ mr: 2, display: { xs: 'none', sm: 'flex' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Tooltip>
 
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           {t('common.appName')}
