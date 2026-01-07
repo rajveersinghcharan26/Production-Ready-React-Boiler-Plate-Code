@@ -23,6 +23,7 @@ const SettingsLayout = lazy(() => import('@/pages/Settings'));
 const NotificationsLayout = lazy(() => import('@/pages/Notifications'));
 const HelpLayout = lazy(() => import('@/pages/Help'));
 const ComponentShowcasePage = lazy(() => import('@/pages/ComponentShowcase'));
+const AddFormPage = lazy(() => import('@/pages/AddForm'));
 const NotFoundPage = lazy(() => import('@/pages/NotFound'));
 
 /**
@@ -149,6 +150,16 @@ export const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <ComponentShowcasePage />
+          </SuspenseWrapper>
+        ),
+      },
+
+      // Add Form (comprehensive form validation demo)
+      {
+        path: ROUTES.ADD_FORM,
+        element: (
+          <SuspenseWrapper>
+            <AddFormPage />
           </SuspenseWrapper>
         ),
       },

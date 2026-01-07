@@ -7,6 +7,7 @@ export { FormFieldShowcase } from './FormFieldShowcase';
 export { FormLabelShowcase } from './FormLabelShowcase';
 export { FormSelectShowcase } from './FormSelectShowcase';
 export { FormMultiSelectShowcase } from './FormMultiSelectShowcase';
+export { FormSwitchShowcase } from './FormSwitchShowcase';
 export { InputShowcase } from './InputShowcase';
 export { SelectShowcase } from './SelectShowcase';
 export { LoaderShowcase } from './LoaderShowcase';

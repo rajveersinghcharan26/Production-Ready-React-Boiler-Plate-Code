@@ -19,3 +19,4 @@ export { PageHeader, type PageHeaderProps, type BreadcrumbItem } from './PageHea
 export { Card, type CardProps } from './Card';
 export { SearchInput, type ISearchInputProps } from './SearchInput';
 export { Tabs, TabPanel, type ITabsProps, type TabItem } from './Tabs';
+export { FormSwitch, type IFormSwitchProps } from './FormSwitch';

@@ -51,6 +51,7 @@ export const ROUTES = {
   NOTIFICATIONS: '/notifications',
   HELP: '/help',
   COMPONENT_SHOWCASE: '/component-showcase',
+  ADD_FORM: '/add-form',
 } as const;
 
 /** Pagination defaults */
