@@ -28,6 +28,7 @@ import {
   Help,
   ChevronLeft,
   ChevronRight,
+  Widgets,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 
@@ -107,6 +108,11 @@ export function Sidebar({
       path: ROUTES.HELP,
       label: t('nav.help'),
       icon: <Help />,
+    },
+    {
+      path: ROUTES.COMPONENT_SHOWCASE,
+      label: t('nav.componentShowcase'),
+      icon: <Widgets />,
     },
   ];
 

@@ -17,11 +17,12 @@ import {
   Chip,
   Tooltip,
 } from '@mui/material';
+
 import { Edit, Delete, Visibility, Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ConfirmDialog, EmptyState, Loader } from '@/components/common';
+import { Button, ConfirmDialog, EmptyState, Loader, StatusBadge } from '@/components/common';
 import { useGetUsersQuery, useDeleteUserMutation } from '@/api/endpoints/userApi';
 import { useAppDispatch } from '@/store/hooks';
 import { showSnackbar } from '@/store/slices/uiSlice';
@@ -93,20 +94,7 @@ const MOCK_USERS: IUser[] = [
   },
 ];
 
-const getStatusColor = (status: EUserStatus) => {
-  switch (status) {
-    case EUserStatus.ACTIVE:
-      return 'success';
-    case EUserStatus.INACTIVE:
-      return 'default';
-    case EUserStatus.SUSPENDED:
-      return 'error';
-    case EUserStatus.PENDING:
-      return 'warning';
-    default:
-      return 'default';
-  }
-};
+
 
 export function UsersListPage() {
   const { t } = useTranslation();
@@ -220,11 +208,7 @@ export function UsersListPage() {
                     <Chip label={user.role} size="small" variant="outlined" />
                   </TableCell>
                   <TableCell>
-                    <Chip
-                      label={user.status}
-                      size="small"
-                      color={getStatusColor(user.status)}
-                    />
+                    <StatusBadge label={user.status} />
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title={t('common.view')}>

@@ -50,6 +50,7 @@ export const ROUTES = {
   SETTINGS: '/settings',
   NOTIFICATIONS: '/notifications',
   HELP: '/help',
+  COMPONENT_SHOWCASE: '/component-showcase',
 } as const;
 
 /** Pagination defaults */

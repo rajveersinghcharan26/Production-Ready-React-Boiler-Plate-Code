@@ -22,6 +22,7 @@ const ReportsLayout = lazy(() => import('@/pages/Reports'));
 const SettingsLayout = lazy(() => import('@/pages/Settings'));
 const NotificationsLayout = lazy(() => import('@/pages/Notifications'));
 const HelpLayout = lazy(() => import('@/pages/Help'));
+const ComponentShowcasePage = lazy(() => import('@/pages/ComponentShowcase'));
 const NotFoundPage = lazy(() => import('@/pages/NotFound'));
 
 /**
@@ -138,6 +139,16 @@ export const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <HelpLayout />
+          </SuspenseWrapper>
+        ),
+      },
+
+      // Component Showcase (for testing UI components)
+      {
+        path: ROUTES.COMPONENT_SHOWCASE,
+        element: (
+          <SuspenseWrapper>
+            <ComponentShowcasePage />
           </SuspenseWrapper>
         ),
       },
