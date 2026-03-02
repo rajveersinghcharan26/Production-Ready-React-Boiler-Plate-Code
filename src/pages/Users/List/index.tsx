@@ -1,28 +1,24 @@
 /**
  * Users list page component.
+ * Now using the DataTable component for display.
  */
 
 import { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  IconButton,
-  Chip,
-  Tooltip,
-} from '@mui/material';
-
+import { Box, Typography, Chip } from '@mui/material';
 import { Edit, Delete, Visibility, Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ConfirmDialog, EmptyState, Loader, StatusBadge } from '@/components/common';
+import {
+  Button,
+  ConfirmDialog,
+  EmptyState,
+  Loader,
+  StatusBadge,
+  DataTable,
+  IDataTableColumn,
+  IDataTableAction,
+} from '@/components/common';
 import { useGetUsersQuery, useDeleteUserMutation } from '@/api/endpoints/userApi';
 import { useAppDispatch } from '@/store/hooks';
 import { showSnackbar } from '@/store/slices/uiSlice';
@@ -108,13 +104,64 @@ export function UsersListPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
-  const handleView = (id: string) => {
-    navigate(`${ROUTES.USERS_LIST}/${id}`);
-  };
+  // Define table columns
+  const columns: IDataTableColumn<IUser>[] = [
+    {
+      key: 'firstName',
+      label: t('users.name'),
+      sortable: true,
+      minWidth: 150,
+      render: (row) => `${row.firstName} ${row.lastName}`,
+    },
+    {
+      key: 'email',
+      label: t('users.email'),
+      sortable: true,
+      minWidth: 200,
+    },
+    {
+      key: 'role',
+      label: t('users.role'),
+      sortable: true,
+      minWidth: 100,
+      render: (row) => <Chip label={row.role} size="small" variant="outlined" />,
+    },
+    {
+      key: 'status',
+      label: t('users.status'),
+      sortable: true,
+      minWidth: 100,
+      render: (row) => <StatusBadge label={row.status} />,
+    },
+    {
+      key: 'createdAt',
+      label: 'Created',
+      sortable: true,
+      minWidth: 120,
+      render: (row) => new Date(row.createdAt).toLocaleDateString(),
+    },
+  ];
 
-  const handleEdit = (id: string) => {
-    navigate(`${ROUTES.USERS_EDIT}/${id}`);
-  };
+  // Define table actions
+  const actions: IDataTableAction<IUser>[] = [
+    {
+      icon: <Visibility fontSize="small" />,
+      tooltip: t('common.view'),
+      onClick: (row) => navigate(`${ROUTES.USERS_LIST}/${row.id}`),
+    },
+    {
+      icon: <Edit fontSize="small" />,
+      tooltip: t('common.edit'),
+      onClick: (row) => navigate(`${ROUTES.USERS_EDIT}/${row.id}`),
+      color: 'primary',
+    },
+    {
+      icon: <Delete fontSize="small" />,
+      tooltip: t('common.delete'),
+      onClick: (row) => handleDeleteClick(row),
+      color: 'error',
+    },
+  ];
 
   const handleDeleteClick = (user: IUser) => {
     setSelectedUser(user);
@@ -186,52 +233,22 @@ export function UsersListPage() {
           }
         />
       ) : (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>{t('users.name')}</TableCell>
-                <TableCell>{t('users.email')}</TableCell>
-                <TableCell>{t('users.role')}</TableCell>
-                <TableCell>{t('users.status')}</TableCell>
-                <TableCell align="right">{t('common.actions')}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id} hover>
-                  <TableCell>
-                    {user.firstName} {user.lastName}
-                  </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Chip label={user.role} size="small" variant="outlined" />
-                  </TableCell>
-                  <TableCell>
-                    <StatusBadge label={user.status} />
-                  </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title={t('common.view')}>
-                      <IconButton onClick={() => handleView(String(user.id))} size="small">
-                        <Visibility />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('common.edit')}>
-                      <IconButton onClick={() => handleEdit(String(user.id))} size="small">
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('common.delete')}>
-                      <IconButton onClick={() => handleDeleteClick(user)} size="small" color="error">
-                        <Delete />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <DataTable
+          data={users}
+          columns={columns}
+          actions={actions}
+          rowKey="id"
+          pagination
+          pageSize={10}
+          searchable
+          searchPlaceholder="Search users..."
+          exportable
+          exportFilename="users-export"
+          sortable
+          defaultSort={{ key: 'firstName', direction: 'asc' }}
+          hoverable
+          onRowClick={(row) => navigate(`${ROUTES.USERS_LIST}/${row.id}`)}
+        />
       )}
 
       <ConfirmDialog

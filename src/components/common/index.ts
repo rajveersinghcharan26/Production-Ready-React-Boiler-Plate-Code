@@ -20,3 +20,4 @@ export { Card, type CardProps } from './Card';
 export { SearchInput, type ISearchInputProps } from './SearchInput';
 export { Tabs, TabPanel, type ITabsProps, type TabItem } from './Tabs';
 export { FormSwitch, type IFormSwitchProps } from './FormSwitch';
+export { DataTable, type IDataTableProps, type IDataTableColumn, type IDataTableAction, type SortDirection } from './DataTable';

@@ -21,4 +21,5 @@ export { PageHeaderShowcase } from './PageHeaderShowcase';
 export { CardShowcase } from './CardShowcase';
 export { SearchInputShowcase } from './SearchInputShowcase';
 export { TabsShowcase } from './TabsShowcase';
+export { DataTableShowcase } from './DataTableShowcase';
 export { ComingSoonShowcase } from './ComingSoonShowcase';

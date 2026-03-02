@@ -32,6 +32,7 @@ import {
   CardShowcase,
   SearchInputShowcase,
   TabsShowcase,
+  DataTableShowcase,
   ComingSoonShowcase,
 } from './sections';
 
@@ -94,6 +95,7 @@ export function ComponentShowcasePage() {
       <CardShowcase />
       <SearchInputShowcase />
       <TabsShowcase />
+      <DataTableShowcase />
       <ComingSoonShowcase />
     </Box>
   );
